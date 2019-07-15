@@ -17,6 +17,7 @@ FILE_NAME="$DNS_1"
 
 PASSWORD_FILE="${DIR_NAME}/${FILE_NAME}-password.txt"
 PKEY_FILE="${DIR_NAME}/${FILE_NAME}.pkey"
+PKEY_NO_PW_FILE="${DIR_NAME}/${FILE_NAME}-nopassword.pkey"
 CSR_FILE="${DIR_NAME}/${FILE_NAME}.csr"
 CERT_PEM_FILE="${DIR_NAME}/${FILE_NAME}.pem"
 CERT_DER_FILE="${DIR_NAME}/${FILE_NAME}.der"
@@ -47,6 +48,14 @@ openssl genpkey                 \
  || exit 1
 chmod 600 "$PKEY_FILE"
 printf "$P_OK Password-protected private key in\n     %s\n" "${PKEY_FILE}"
+
+# If required export private key without password
+printf "Export private key without password protection? [y/N] "
+read ANSWER; ANSWER=${ANSWER:=n}
+if [ "$ANSWER" = "y" ] || [ "$ANSWER" = "Y" ];
+then
+    openssl rsa -in "$PKEY_FILE" -out "$PKEY_NO_PW_FILE" -passin file:"$PASSWORD_FILE"
+fi
 
 # Create an extension configuration
 cat > "$CFG_FILE" << EOT
