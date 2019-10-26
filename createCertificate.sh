@@ -8,7 +8,7 @@ DN_COUNTRY="DE"
 DN_STATE="Baden-Württemberg"
 DN_LOCALITY="Freiburg i. Br."
 DN_ORGANIZATION="Die Firma"
-VALIDITY_YEARS=5
+VALIDITY_DAYS=824
 
 #-------------------------------------------------------------------------------
 
@@ -100,15 +100,15 @@ chmod 640 "$CSR_FILE"
 printf "$P_OK CSR\n     %s\n" "${CSR_FILE}"
 
 # Self sign the request and export the certificate to different formats
-openssl x509                     \
- -signkey "$PKEY_FILE"           \
- -passin file:"$PASSWORD_FILE"   \
- -in "$CSR_FILE"                 \
- -req -sha256                    \
- -days $((365 * VALIDITY_YEARS)) \
- -extfile "$CFG_FILE"            \
- -extensions v3_req              \
- -out "$CERT_PEM_FILE"           \
+openssl x509                   \
+ -signkey "$PKEY_FILE"         \
+ -passin file:"$PASSWORD_FILE" \
+ -in "$CSR_FILE"               \
+ -req -sha256                  \
+ -days $VALIDITY_DAYS          \
+ -extfile "$CFG_FILE"          \
+ -extensions v3_req            \
+ -out "$CERT_PEM_FILE"         \
  || exit 1
 chmod 640 "$CERT_PEM_FILE"
 printf "$P_OK Certificate\n     %s\n" "${CERT_PEM_FILE}"
