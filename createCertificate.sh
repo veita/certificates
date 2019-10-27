@@ -63,6 +63,8 @@ cat > "$CFG_FILE" << EOT
 prompt             = no
 default_bits       = 3072
 default_keyfile    = ${PKEY_FILE}
+utf8               = yes
+string_mask        = utf8only
 distinguished_name = distinguished_name_req
 req_extensions     = v3_req
 x509_extensions    = v3_req
