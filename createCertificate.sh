@@ -93,7 +93,8 @@ openssl req                    \
  -key "$PKEY_FILE"             \
  -passin file:"$PASSWORD_FILE" \
  -keyform PEM                  \
- -new -sha256                  \
+ -new                          \
+ -sha256                       \
  -utf8                         \
  -config "$CFG_FILE"           \
  -out "$CSR_FILE"              \
@@ -106,7 +107,8 @@ openssl x509                   \
  -signkey "$PKEY_FILE"         \
  -passin file:"$PASSWORD_FILE" \
  -in "$CSR_FILE"               \
- -req -sha256                  \
+ -req                          \
+ -sha256                       \
  -days $VALIDITY_DAYS          \
  -extfile "$CFG_FILE"          \
  -extensions v3_req            \
@@ -127,7 +129,8 @@ openssl pkcs12                  \
  -inkey "$PKEY_FILE"            \
  -in "$CERT_PEM_FILE"           \
  -passin file:"$PASSWORD_FILE"  \
- -export -out "$PKCS12_FILE"    \
+ -export                        \
+ -out "$PKCS12_FILE"            \
  -passout file:"$PASSWORD_FILE" \
  || exit1
 chmod 600 "$PKCS12_FILE"
